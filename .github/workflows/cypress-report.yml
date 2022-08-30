@@ -1,0 +1,43 @@
+name: Cypress report
+on:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  Cypress:
+    name: Cypress report
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install npm
+        run: npm install
+
+      - name: Delete branch
+        uses: dawidd6/action-delete-branch@v3
+        with:
+          github_token: ${{github.token}}
+          branches: gh-pages
+        continue-on-error: true
+
+      - name: Run tests
+        uses: cypress-io/github-action@v2
+        with:
+          config-file: cypress.config.js
+        continue-on-error: true
+
+      - name: Merge test results into one
+        run: npm run report:merge
+
+      - name: Generate HTML report
+        run: npm run report:generate
+
+      - name: Deploy report page
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"
