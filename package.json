@@ -1,0 +1,28 @@
+{
+    "name": "telnyx-cypress-cucumber",
+    "version": "1.0.0",
+    "description": "Automation testing of the Telnyx website with Cypress + Cucumber.",
+    "main": "index.js",
+    "scripts": {
+        "test:chrome": "npx cypress run --browser chrome",
+        "test:firefox": "npx cypress run --browser firefox",
+        "test:edge": "npx cypress run --browser edge",
+        "test:electron": "npx cypress run --browser electron",
+        "report:open": "cucumber-report.html"
+    },
+    "author": "Daniil Polianskyi",
+    "license": "ISC",
+    "devDependencies": {
+        "@badeball/cypress-cucumber-preprocessor": "^15.1.5",
+        "@cypress/webpack-preprocessor": "^5.17.0",
+        "@faker-js/faker": "^7.6.0",
+        "cypress": "^12.8.1"
+    },
+    "cypress-cucumber-preprocessor": {
+        "nonGlobalStepDefinitions": true,
+        "stepDefinitions": "cypress/step-definitions/*.js",
+        "html": {
+            "enabled": true
+        }
+    }
+}
